@@ -2,6 +2,9 @@
 import { ref } from 'vue'
 import { todoListStore } from '@/stores/todo_list'
 import moment from 'moment'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const todoStore = todoListStore()
 
@@ -27,7 +30,7 @@ const validateTimeDuration = (time) => {
 const handleAddItem = async () => {
   errorMessage.value = ''
   const form = formRef.value
-  if (form.validate()) {
+  if (form.validate) {
     try {
       let payload = {
         name: name.value,
@@ -38,6 +41,13 @@ const handleAddItem = async () => {
         completion_time: ''
       }
       todoStore.addItemToTodoList(payload)
+      if (todoStore.addTodoItemStatus) {
+        name.value = ''
+        description.value = ''
+        time_required.value = ''
+        priority.value = ''
+        router.go(-1)
+      }
     } catch (error) {
       errorMessage.value = error.response ? error.response.data.message : 'An error occurred'
     }

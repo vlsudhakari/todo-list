@@ -9,6 +9,9 @@ onMounted(() => {
     todoStore.addItemToTodoList()
   }
 })
+const deleteTodoItem = (item) => {
+  todoStore.deleteTodoItem(item.id)
+}
 </script>
 <template>
   <div>
@@ -20,6 +23,7 @@ onMounted(() => {
           <th class="text-left">Priority</th>
           <th class="text-left">Status</th>
           <th class="text-left">Description</th>
+          <th class="text-left"></th>
         </tr>
       </thead>
       <tbody>
@@ -28,6 +32,15 @@ onMounted(() => {
           <td>{{ item.priority }}</td>
           <td>{{ item.status }}</td>
           <td>{{ item.description }}</td>
+          <td>
+            <v-btn
+              v-if="todoStore.todoListLength > 1"
+              class="danger-button"
+              variant="outlined"
+              @click.prevent="deleteTodoItem(item)"
+              >Delete</v-btn
+            >
+          </td>
         </tr>
       </tbody>
     </v-table>

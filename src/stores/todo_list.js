@@ -46,7 +46,7 @@ export const todoListStore = defineStore('todo_list', {
       }
     },
     deleteTodoItem(id) {
-      let index = this.todo_list.findIndex(id)
+      let index = this.todo_list.findIndex(item => item.id == id)
       if (index > -1) {
         this.todo_list.splice(index, 1);
       }

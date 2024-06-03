@@ -2,7 +2,8 @@ import { defineStore } from 'pinia';
 
 export const todoListStore = defineStore('todo_list', {
   state: () => ({
-    todo_list: []
+    todo_list: [],
+    addTodoItemStatus: false
   }),
   getters: {
     getTodoList: (state) => state.todo_list,
@@ -11,8 +12,7 @@ export const todoListStore = defineStore('todo_list', {
   actions: {
     // name, priority, status, required time, completion time and description
     addItemToTodoList(payload = {}) {
-      console.log('Add Item Function Called')
-
+      console.log('Add Item Function Called');
       let tempObject = {
         name: this.todoListLength ? payload.name : 'Sudhakar',
         priority: this.todoListLength ? payload.priority : 'High',
@@ -23,6 +23,7 @@ export const todoListStore = defineStore('todo_list', {
         date: this.todoListLength ? payload.date : '05/31/2024',
         id: 0
       };
+      this.addTodoItemStatus = false;
       let length = this.todo_list.length;
       if (length) {
         tempObject.id = parseInt(this.todo_list[length - 1].id) + 1;
@@ -30,6 +31,7 @@ export const todoListStore = defineStore('todo_list', {
         tempObject.id = 1;
       }
       this.todo_list.push(tempObject);
+      this.addTodoItemStatus = true;
     },
     updateStatus(payload) {
       let index = this.todo_list.findIndex(payload.id)

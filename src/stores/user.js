@@ -1,10 +1,9 @@
-// stores/user.js
 import { defineStore } from 'pinia';
 
 export const userStore = defineStore('user', {
   state: () => ({
-    name: 'Sudhakar',
-    password: '12345',
+    name: 'demo',
+    password: 'demo@1234',
     loggedIn: false,
     message: ''
   }),
@@ -14,7 +13,6 @@ export const userStore = defineStore('user', {
   },
   actions: {
     login(payload) {
-      console.log(payload, this.name, this.password);
       if (payload.username == this.name && payload.password == this.password) {
         this.loggedIn = true;
         this.message = 'Logged In Successfully!'
@@ -24,7 +22,6 @@ export const userStore = defineStore('user', {
       }
     },
     logout() {
-      // this.name = '';
       this.loggedIn = false;
       this.message = 'Logged Out Successfully!'
     },

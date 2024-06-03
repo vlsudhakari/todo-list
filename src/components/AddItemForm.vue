@@ -30,7 +30,8 @@ const validateTimeDuration = (time) => {
 const handleAddItem = async () => {
   errorMessage.value = ''
   const form = formRef.value
-  if (form.validate) {
+  console.log(form)
+  if (form.validate()) {
     try {
       let payload = {
         name: name.value,
@@ -53,6 +54,10 @@ const handleAddItem = async () => {
     }
   }
 }
+
+const cancelAddTodoItem = () => {
+  router.go(-1)
+}
 </script>
 <template>
   <div class="add-item">
@@ -62,8 +67,9 @@ const handleAddItem = async () => {
         <v-text-field
           v-model="name"
           hide-details="auto"
-          label="name"
+          label="Name"
           variant="outlined"
+          required
         ></v-text-field>
         <v-select
           v-model="priority"
@@ -71,6 +77,7 @@ const handleAddItem = async () => {
           density="comfortable"
           label="Priority"
           variant="outlined"
+          required
         ></v-select>
         <v-text-field
           v-model="time_required"
@@ -78,7 +85,7 @@ const handleAddItem = async () => {
           label="Time Required (HH:MM)"
           required
           variant="outlined"
-          placeholder="00:00"
+          placeholder="Duration(HH:MM)"
         ></v-text-field>
         <v-textarea
           v-model="description"
@@ -87,7 +94,14 @@ const handleAddItem = async () => {
           variant="outlined"
           clearable
         ></v-textarea>
-        <button class="mt-2" type="submit" @click.prevent="handleAddItem">Save</button>
+        <div class="button-section">
+          <v-btn class="success-button" variant="outlined" @click.prevent="handleAddItem"
+            >Save</v-btn
+          >
+          <v-btn class="danger-button" variant="outlined" @click.prevent="cancelAddTodoItem"
+            >Cancel</v-btn
+          >
+        </div>
       </v-form>
     </div>
   </div>
@@ -125,11 +139,8 @@ const handleAddItem = async () => {
 
     button {
       width: 50%;
-      padding: 10px;
-      background-color: #4caf50;
       color: white;
-      border: none;
-      border-radius: 5px;
+      font-weight: bold;
       cursor: pointer;
       &:hover {
         background-color: #45a049;
@@ -145,6 +156,33 @@ const handleAddItem = async () => {
       &.danger {
         color: red;
         font-weight: bold;
+      }
+    }
+
+    .button-section {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .success-button {
+        border: none;
+        border-radius: 5px;
+        width: 30%;
+        background-color: #297b41;
+        color: #fff;
+        font-weight: bold;
+      }
+      .danger-button {
+        border: solid 2px #ee2828;
+        border-radius: 5px;
+        width: 30%;
+        color: #ee2828;
+        font-weight: bold;
+        &:hover {
+          background-color: #ee2828;
+          color: #fff;
+          font-weight: bold;
+        }
       }
     }
   }

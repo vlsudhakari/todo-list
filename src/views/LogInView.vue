@@ -1,23 +1,11 @@
 <script setup>
 import { ref } from 'vue'
-// import { counterStore } from '@/stores/counter'
 import { userStore } from '@/stores/user'
-
-// const counter = counterStore()
 const storeUser = userStore()
 
 const username = ref('')
 const password = ref('')
 const errorMessage = ref('')
-
-// const user = ref({
-//   name: 'John Doe',
-//   age: 30
-// })
-
-// const incrementCounter = () => {
-//   counter.increment()
-// }
 
 const handleLogin = async () => {
   errorMessage.value = ''
@@ -38,33 +26,39 @@ const handleLogin = async () => {
 
 <template>
   <div class="login">
-    <!-- <h1>Counter Example</h1>
-    <p>Count: {{ counter.count }}</p>
-    <p>Double Count: {{ counter.doubleCount }}</p>
-    <p>Triple Count: {{ counter.tripleCount }}</p>
-    <button @click="incrementCounter">Increment</button> -->
-
     <div class="login-container">
       <h1>Login</h1>
       <form @submit.prevent="handleLogin">
         <div>
-          <label for="username">Username:</label>
-          <input type="text" id="username" v-model="username" required />
+          <label for="username">Username:(demo)</label>
+          <v-text-field
+            :disabled="storeUser.loggedIn"
+            type="text"
+            id="username"
+            v-model="username"
+            variant="outlined"
+            required
+          ></v-text-field>
         </div>
         <div>
-          <label for="password">Password:</label>
-          <input type="password" id="password" v-model="password" required />
+          <label for="password">Password:(demo@1234)</label>
+          <v-text-field
+            :disabled="storeUser.loggedIn"
+            type="password"
+            id="password"
+            v-model="password"
+            variant="outlined"
+            required
+          ></v-text-field>
         </div>
-        <button type="submit">{{ storeUser.loggedIn ? 'Log Out' : 'Log In' }}</button>
+        <button type="submit">
+          {{ storeUser.loggedIn ? 'Log Out' : 'Log In' }}
+        </button>
       </form>
       <p :class="storeUser.loggedIn ? 'success' : 'danger'" v-if="storeUser.statusMessage != ''">
         {{ storeUser.statusMessage }}
       </p>
     </div>
-
-    <!-- <p>User Name: {{ username }}</p>
-    <p>Age: {{ user.age }}</p>
-    <p>Logged In Status: {{ storeUser.status }}</p> -->
   </div>
 </template>
 

@@ -6,7 +6,7 @@ import NavBar from './components/NavBar.vue'
 
 <template>
   <v-app>
-    <HelloWorld msg="You did it!" />
+    <HelloWorld msg="Hello!" />
     <NavBar />
     <v-main>
       <v-card>

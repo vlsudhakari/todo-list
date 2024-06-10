@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { userStore } from '@/stores/user'
+const router = useRouter()
 const storeUser = userStore()
 
 const username = ref('')
@@ -10,13 +12,15 @@ const errorMessage = ref('')
 const handleLogin = async () => {
   errorMessage.value = ''
   try {
-    if (storeUser.loggedIn) {
-      storeUser.logout()
+    if (storeUser.isAuthenticated) {
       username.value = ''
       password.value = ''
+      storeUser.logout()
+      router.go(-1)
     } else {
       let payload = { username: username.value, password: password.value.toString() }
       storeUser.login(payload)
+      router.push({ name: 'todo-list' })
     }
   } catch (error) {
     errorMessage.value = error.response ? error.response.data.message : 'An error occurred'
@@ -32,7 +36,7 @@ const handleLogin = async () => {
         <div>
           <label for="username">Username:(demo)</label>
           <v-text-field
-            :disabled="storeUser.loggedIn"
+            :disabled="storeUser.isAuthenticated"
             type="text"
             id="username"
             v-model="username"
@@ -43,7 +47,7 @@ const handleLogin = async () => {
         <div>
           <label for="password">Password:(demo@1234)</label>
           <v-text-field
-            :disabled="storeUser.loggedIn"
+            :disabled="storeUser.isAuthenticated"
             type="password"
             id="password"
             v-model="password"
@@ -52,10 +56,13 @@ const handleLogin = async () => {
           ></v-text-field>
         </div>
         <button type="submit">
-          {{ storeUser.loggedIn ? 'Log Out' : 'Log In' }}
+          {{ storeUser.isAuthenticated ? 'Log Out' : 'Log In' }}
         </button>
       </form>
-      <p :class="storeUser.loggedIn ? 'success' : 'danger'" v-if="storeUser.statusMessage != ''">
+      <p
+        :class="storeUser.isAuthenticated ? 'success' : 'danger'"
+        v-if="storeUser.statusMessage != ''"
+      >
         {{ storeUser.statusMessage }}
       </p>
     </div>
@@ -69,23 +76,6 @@ const handleLogin = async () => {
   min-height: 100vh;
   margin: 0 auto;
   width: 30%;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: flex-end;
-  // align-items: center;
-  // button {
-  //   width: 150px;
-  //   padding: 10px;
-  //   margin: 10px 0 20px;
-  //   background-color: $secondary;
-  //   color: white;
-  //   border: none;
-  //   border-radius: 5px;
-  //   cursor: pointer;
-  //   &:hover {
-  //     background-color: $secondary;
-  //   }
-  // }
   .login-container {
     text-align: left;
     // max-width: 50%;

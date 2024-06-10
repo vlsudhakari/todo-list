@@ -1,8 +1,8 @@
 <script setup>
-import AddTodoItem from '@/components/AddItemForm.vue'
+import AddItemForm from '@/components/AddItemForm.vue'
 </script>
 <template>
   <div>
-    <AddTodoItem />
+    <AddItemForm />
   </div>
 </template>

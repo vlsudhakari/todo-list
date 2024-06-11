@@ -23,7 +23,7 @@ export const userStore = defineStore('user', {
     },
     logout() {
       this.isAuthenticated = false;
-      this.message = 'Logged Out Successfully!'
+      this.message = ''
     },
   },
 });

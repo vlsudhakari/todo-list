@@ -61,7 +61,7 @@ const handleLogin = async () => {
       </form>
       <p
         :class="storeUser.isAuthenticated ? 'success' : 'danger'"
-        v-if="storeUser.statusMessage != ''"
+        v-if="storeUser.statusMessage != '' && !storeUser.isAuthenticated"
       >
         {{ storeUser.statusMessage }}
       </p>
